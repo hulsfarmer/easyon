@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이지온 EasyOn — 웹·앱 개발</title>
+<meta name="description" content="이지온은 웹 서비스와 앱을 직접 기획하고 만드는 개발사입니다. ShortsAI, MarketSignal, 토스 미니앱을 만들고 운영합니다.">
+<meta property="og:title" content="이지온 EasyOn — 켜기만 하면, 쉬워져요">
+<meta property="og:description" content="웹 서비스와 앱을 직접 기획하고 만드는 개발사">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f2a44'/%3E%3Crect x='12' y='22' width='40' height='20' rx='10' fill='%23ffd640'/%3E%3Ccircle cx='42' cy='32' r='7' fill='%231f2a44'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --yellow: #ffd640;
+    --yellow-soft: #fff6cf;
+    --navy: #1f2a44;
+    --navy-2: #2d3a5c;
+    --ink: #1f2a44;
+    --muted: #5b6478;
+    --line: #e7e9ef;
+    --bg: #ffffff;
+    --bg-soft: #f7f8fb;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Pretendard", -apple-system, system-ui, "Apple SD Gothic Neo", sans-serif;
+    color: var(--ink); background: var(--bg); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; word-break: keep-all;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* 로고 */
+  .logo { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .logo .easy { font-family: "Caveat Brush", cursive; font-size: 30px; line-height: 1; color: var(--navy); }
+  .logo .on {
+    display: inline-flex; align-items: center; gap: 5px; background: var(--navy); color: var(--yellow);
+    font-weight: 800; font-size: 13px; letter-spacing: .04em; padding: 4px 9px 4px 6px; border-radius: 999px;
+  }
+  .logo .on::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); }
+  .logo .ko { font-weight: 700; font-size: 15px; color: var(--muted); margin-left: 6px; }
+
+  /* 상단 */
+  header { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  nav { display: flex; gap: 22px; font-size: 15px; font-weight: 600; color: var(--muted); }
+  nav a { text-decoration: none; }
+  nav a:hover { color: var(--navy); }
+
+  /* 첫 화면 */
+  .hero { padding: 88px 0 96px; background: linear-gradient(180deg, var(--yellow-soft) 0%, #fff 100%); }
+  .hero .wrap { display: grid; grid-template-columns: 1.2fr .8fr; gap: 48px; align-items: center; }
+  .eyebrow { display: inline-block; font-size: 14px; font-weight: 700; color: var(--navy-2); background: #fff; border: 1px solid var(--line); padding: 6px 12px; border-radius: 999px; }
+  .hero h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.2; font-weight: 800; letter-spacing: -0.03em; margin: 20px 0 8px; }
+  .hero .en { font-size: 18px; font-weight: 600; color: var(--muted); letter-spacing: .01em; }
+  .hero p.lead { font-size: 19px; color: var(--navy-2); margin-top: 24px; max-width: 34em; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border-radius: 14px; font-weight: 700; font-size: 16px; text-decoration: none; }
+  .btn.primary { background: var(--navy); color: #fff; }
+  .btn.primary:hover { background: var(--navy-2); }
+  .btn.ghost { background: #fff; border: 1px solid var(--line); color: var(--navy); }
+
+  /* 스위치 그림 */
+  .switch-art { display: flex; justify-content: center; }
+  .switch {
+    width: 280px; height: 150px; border-radius: 999px; background: var(--navy); position: relative;
+    box-shadow: 0 24px 60px rgba(31,42,68,.22);
+  }
+  .switch .knob {
+    position: absolute; top: 15px; right: 15px; width: 120px; height: 120px; border-radius: 50%;
+    background: var(--yellow); display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 34px; color: var(--navy); letter-spacing: .02em;
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,.08);
+  }
+  .switch .off { position: absolute; left: 44px; top: 50%; transform: translateY(-50%); color: #6c7796; font-weight: 800; font-size: 22px; letter-spacing: .04em; }
+
+  /* 섹션 공통 */
+  section { padding: 88px 0; }
+  section.soft { background: var(--bg-soft); }
+  .sec-head { margin-bottom: 40px; }
+  .sec-head .kicker { font-size: 14px; font-weight: 800; color: #b38900; letter-spacing: .08em; }
+  .sec-head h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.02em; margin-top: 8px; }
+  .sec-head p { color: var(--muted); font-size: 17px; margin-top: 10px; }
+
+  /* 하는 일 */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+  .card .num { width: 40px; height: 40px; border-radius: 12px; background: var(--yellow); color: var(--navy); font-weight: 900; display: flex; align-items: center; justify-content: center; }
+  .card h3 { font-size: 21px; font-weight: 800; margin: 18px 0 8px; }
+  .card p { color: var(--muted); font-size: 16px; }
+  .card ul { list-style: none; margin-top: 16px; display: grid; gap: 6px; font-size: 15px; color: var(--navy-2); }
+  .card li::before { content: "● "; color: #e0b400; font-size: 10px; vertical-align: 2px; }
+
+  /* 만든 서비스 */
+  .works { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .work { display: flex; gap: 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; text-decoration: none; transition: border-color .15s, transform .15s; }
+  a.work:hover { border-color: var(--navy); transform: translateY(-2px); }
+  .work .icon { flex: none; width: 64px; height: 64px; border-radius: 16px; overflow: hidden; background: var(--navy); color: var(--yellow); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; }
+  .work .icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work .icon.ms { background: #0f3d3e; color: #9ff2c9; }
+  .work h3 { font-size: 19px; font-weight: 800; }
+  .work .where { font-size: 14px; font-weight: 700; color: #b38900; margin-top: 2px; }
+  .work p { color: var(--muted); font-size: 15px; margin-top: 8px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tag { font-size: 13px; font-weight: 600; color: var(--navy-2); background: var(--bg-soft); border: 1px solid var(--line); padding: 3px 10px; border-radius: 999px; }
+  .note { margin-top: 18px; font-size: 14px; color: var(--muted); }
+
+  /* 연락 */
+  .contact { background: var(--navy); color: #fff; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; }
+  .contact h2 { font-size: clamp(26px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; }
+  .contact p { color: #c9cfdd; margin-top: 10px; font-size: 17px; }
+  .contact .lines { display: grid; gap: 10px; font-size: 17px; }
+  .contact .lines a { text-decoration: none; color: var(--yellow); font-weight: 700; }
+  .contact .lines span { color: #9aa3b8; font-size: 14px; display: block; }
+
+  /* 하단 */
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  footer .biz { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 16px; }
+  footer .biz b { color: var(--navy-2); font-weight: 700; margin-right: 4px; }
+  footer .copy { margin-top: 16px; }
+
+  @media (max-width: 860px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .switch-art { order: -1; justify-content: flex-start; }
+    .switch { width: 180px; height: 96px; }
+    .switch .knob { width: 76px; height: 76px; top: 10px; right: 10px; font-size: 22px; }
+    .switch .off { left: 26px; font-size: 15px; }
+    .grid3, .works { grid-template-columns: 1fr; }
+    .contact { grid-template-columns: 1fr; padding: 32px 24px; }
+    nav { display: none; }
+    .hero { padding: 48px 0 64px; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="이지온 홈">
+      <span class="easy">easy</span><span class="on">ON</span><span class="ko">이지온</span>
+    </a>
+    <nav aria-label="주요 메뉴">
+      <a href="#work">하는 일</a>
+      <a href="#services">만든 서비스</a>
+      <a href="#contact">문의</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">웹 · 앱 · 자동화 개발</span>
+        <h1>켜기만 하면,<br>쉬워져요</h1>
+        <div class="en">Make it Easy. Turn it On.</div>
+        <p class="lead">이지온은 웹 서비스와 앱을 직접 기획하고 만드는 개발사입니다. 복잡한 일을 버튼 하나로 끝나게 만드는 것, 그게 저희가 하는 일이에요.</p>
+        <div class="cta">
+          <a class="btn primary" href="#services">만든 서비스 보기</a>
+          <a class="btn ghost" href="#contact">개발 문의하기</a>
+        </div>
+      </div>
+      <div class="switch-art" aria-hidden="true">
+        <div class="switch"><span class="off">OFF</span><span class="knob">ON</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">WHAT WE DO</div>
+        <h2>이지온이 하는 일</h2>
+        <p>기획부터 개발, 출시, 운영까지 직접 합니다.</p>
+      </div>
+      <div class="grid3">
+        <article class="card">
+          <div class="num">1</div>
+          <h3>웹 서비스 개발</h3>
+          <p>회원·결제·데이터가 있는 웹 서비스를 만들고, 출시 뒤 운영까지 맡아요.</p>
+          <ul>
+            <li>SaaS·대시보드·관리 도구</li>
+            <li>결제·로그인 연동</li>
+            <li>검색 노출을 고려한 구조</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="num">2</div>
+          <h3>앱·미니앱 개발</h3>
+          <p>설치 없이 토스 앱 안에서 바로 쓰는 미니앱을 만들어 출시하고 운영해요.</p>
+          <ul>
+            <li>토스 미니앱(앱인토스) 출시</li>
+            <li>광고·공유·알림 연동</li>
+            <li>모바일 화면 최적화</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="num">3</div>
+          <h3>AI·자동화</h3>
+          <p>영상 제작, 데이터 수집, 콘텐츠 만들기처럼 반복되는 일을 자동으로 돌아가게 만들어요.</p>
+          <ul>
+            <li>AI 영상·음성 생성</li>
+            <li>데이터 수집·가공</li>
+            <li>업무 자동화</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="soft">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">OUR SERVICES</div>
+        <h2>직접 만들고 운영하는 서비스</h2>
+        <p>모두 이지온이 기획하고 개발해 지금 운영하고 있어요.</p>
+      </div>
+      <div class="works">
+        <a class="work" href="https://shortsai.kr" target="_blank" rel="noopener">
+          <div class="icon">S</div>
+          <div>
+            <h3>ShortsAI</h3>
+            <div class="where">shortsai.kr · 웹 서비스</div>
+            <p>업체명과 사진만 넣으면 AI가 스크립트·음성·배경음악·영상까지 만들어 주는 가게 홍보 영상 서비스예요.</p>
+            <div class="tags"><span class="tag">AI 영상</span><span class="tag">SaaS</span><span class="tag">결제</span></div>
+          </div>
+        </a>
+        <a class="work" href="https://marketsignal.kr" target="_blank" rel="noopener">
+          <div class="icon ms">M</div>
+          <div>
+            <h3>MarketSignal</h3>
+            <div class="where">marketsignal.kr · 웹 서비스</div>
+            <p>코스피·나스닥, 한미 금리, 환율, 물가 지표를 기간별로 한 그래프에 겹쳐 비교하는 무료 경제지표 대시보드예요.</p>
+            <div class="tags"><span class="tag">데이터</span><span class="tag">대시보드</span><span class="tag">종목 정보</span></div>
+          </div>
+        </a>
+        <div class="work">
+          <div class="icon"><img src="https://static.toss.im/appsintoss/98611/live-managed-v1-fb0742a2-af5b-4dc8-917b-39f5b054e693.png" alt="매일 상식 PT 아이콘" loading="lazy"></div>
+          <div>
+            <h3>매일 상식 PT</h3>
+            <div class="where">토스 미니앱 · 2026.10 출시</div>
+            <p>하루 3문제 상식·우리말 두뇌 운동. 틀린 문제는 다음 날 다시 나와 약한 부분을 채워요.</p>
+            <div class="tags"><span class="tag">교육</span><span class="tag">퀴즈</span></div>
+          </div>
+        </div>
+        <div class="work">
+          <div class="icon"><img src="https://static.toss.im/appsintoss/98611/live-managed-v1-b617d2ad-ca6f-4bb2-b524-33a892080d64.png" alt="매일 성경 PT 아이콘" loading="lazy"></div>
+          <div>
+            <h3>매일 성경 PT</h3>
+            <div class="where">토스 미니앱 · 2026.10 출시</div>
+            <p>하루 3문제 성경 말씀 두뇌 운동. 66권 1,500여 문제를 장·절 출처와 해설과 함께 풀어요.</p>
+            <div class="tags"><span class="tag">교육</span><span class="tag">퀴즈</span></div>
+          </div>
+        </div>
+        <div class="work">
+          <div class="icon"><img src="https://static.toss.im/appsintoss/98611/live-managed-v1-46ccd2b8-a839-40bf-af68-6eba0aff4639.png" alt="캐릭터 코디 아이콘" loading="lazy"></div>
+          <div>
+            <h3>캐릭터 코디</h3>
+            <div class="where">토스 미니앱 · 2026.10 출시</div>
+            <p>토스쇼핑 옷을 캐릭터에게 입혀 보는 코디 놀이. 상의·하의·신발을 골라 입은 모습을 바로 봐요.</p>
+            <div class="tags"><span class="tag">패션</span><span class="tag">AI 이미지</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">토스 미니앱은 토스 앱 검색에서 이름으로 찾을 수 있어요.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2>만들고 싶은 서비스가 있나요?</h2>
+          <p>웹·앱·자동화 개발 문의를 받고 있어요. 하고 싶은 일을 편하게 적어 보내 주세요.</p>
+        </div>
+        <div class="lines">
+          <div><span>이메일</span><a href="mailto:support@shortsai.kr">support@shortsai.kr</a></div>
+          <div><span>전화</span><a href="tel:01041490673">010-4149-0673</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="이지온 홈"><span class="easy">easy</span><span class="on">ON</span><span class="ko">이지온</span></a>
+    <div class="biz">
+      <span><b>상호</b>이지온 (EasyOn)</span>
+      <span><b>대표</b>Sutong An</span>
+      <span><b>사업자등록번호</b>794-03-04121</span>
+      <span><b>주소</b>제주특별자치도 제주시 조천읍 함덕12길 46-1, 202호</span>
+      <span><b>전화</b>010-4149-0673</span>
+      <span><b>이메일</b>support@shortsai.kr</span>
+    </div>
+    <div class="copy">© 2026 EasyOn. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
